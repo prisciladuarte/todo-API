@@ -1,9 +1,7 @@
-const express = require("express")
+const app = require("./src/app");
 
-const app = express()
+const PORT = 4567;
 
-const PORT = 4567
-
-app.listen(PORT, ()=> {
-    console.log(`Tamo on na porta ${PORT}`);
-})
+app.listen(PORT, () => {
+  console.log(`Tamo on na porta ${PORT}`);
+});
