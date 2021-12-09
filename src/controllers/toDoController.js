@@ -1,3 +1,6 @@
+const tarefasJson = require("../models/tarefas.json");
+const fs = require("fs");
+
 const createTask = (request, response) => {
   const bodyRequest = request.body;
 
@@ -10,6 +13,12 @@ const createTask = (request, response) => {
     nome: bodyRequest.nome,
   };
   console.log(novaTarefa);
+
+  tarefasJson.push(novaTarefa);
+
+  
+
+  response.status(201).send(tarefasJson)
 };
 
 module.exports = {
