@@ -9,19 +9,19 @@ const createTask = (request, response) => {
   const bodyRequest = request.body;
 
   const novaTarefa = {
-    id: Math.random().toString(32).substr(2, 9),
+    id: Math.random().toString(32).substr(2,9),
     dataInclusao: new Date(),
     descricao: bodyRequest.descricao,
     concluido: false,
     nome: bodyRequest.nome,
   };
+
   console.log(novaTarefa);
-
   tarefasJson.push(novaTarefa);
-
   fs = require("fs");
+
   fs.writeFile(
-    "srcmodels\tarefas.json",
+    "./src/models/tarefas.json",
     JSON.stringify(tarefasJson),
     "utf8",
     function (err) {
@@ -63,16 +63,23 @@ const updateQualquerCoisa = (response, request) => {
   const bodyRequest = request.body;
   const tarefaEncontrada = tarefasJson.find((tarefa) => tarefa.id == idRequest);
 
-  tarefaEncontrada[chave] = bodyRequest[chave]
-
   bodyRequest.id = idRequest;
   bodyRequest.dataInclusao = tarefaEncontrada.dataInclusao;
 
-
+  Object.keys(tarefaEncontrada).forEach((chave) => {
+    tarefaEncontrada[chave] = bodyRequest[chave]
+  })
+response.status(200).json(
+  [
+    "message": "tarefa atualizada",
+    tarefaEncontrada
+  ]
+)
 };
 
 module.exports = {
   createTask,
   getAll,
   deleteTask,
+  updateQualquerCoisa
 };

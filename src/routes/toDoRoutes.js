@@ -9,4 +9,6 @@ router.post("/novo", controller.createTask);
 
 router.delete("/delete/:id", controller.deleteTask);
 
+router.patch("/update/:id", controller.updateQualquerCoisa);
+
 module.exports = router;
