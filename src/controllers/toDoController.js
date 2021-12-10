@@ -58,6 +58,19 @@ const deleteTask = (request, response) => {
   });
 };
 
+const updateQualquerCoisa = (response, request) => {
+  const idRequest = request.params.id;
+  const bodyRequest = request.body;
+  const tarefaEncontrada = tarefasJson.find((tarefa) => tarefa.id == idRequest);
+
+  tarefaEncontrada[chave] = bodyRequest[chave]
+
+  bodyRequest.id = idRequest;
+  bodyRequest.dataInclusao = tarefaEncontrada.dataInclusao;
+
+
+};
+
 module.exports = {
   createTask,
   getAll,
