@@ -25,15 +25,41 @@ const createTask = (request, response) => {
     JSON.stringify(tarefasJson),
     "utf8",
     function (err) {
-      if (err) return console.log(err);
-      console.log("eita!");
+      if (err) {
+        return response.status(500).send({ message: err });
+      }
     }
   );
 
   response.status(201).send(tarefasJson);
 };
 
+const deleteTask = (request, response) => {
+  const idRequest = request.params.id;
+
+  const indiceTarefa = tarefasJson.findIndex(
+    (tarefa) => tarefasJson.id == idRequest
+  );
+  tarefasJson.splice(indiceTarefa, 1);
+  fs.writeFile(
+    "srcmodels\tarefas.json",
+    JSON.stringify(tarefasJson),
+    "utf8",
+    function (err) {
+      if (err) {
+        return response.status(500).send({ message: err });
+      }
+    }
+  );
+  response.status(200).json({
+    message: "Tarefa deletada com sucesso!",
+    deletada: idRequest,
+    tarefasJson,
+  });
+};
+
 module.exports = {
   createTask,
-  getAll
+  getAll,
+  deleteTask,
 };
