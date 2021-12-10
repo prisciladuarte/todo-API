@@ -9,16 +9,15 @@ const createTask = (request, response) => {
   const bodyRequest = request.body;
 
   const novaTarefa = {
-    id: Math.random().toString(32).substr(2,9),
+    id: Math.random().toString(32).substr(2, 9),
     dataInclusao: new Date(),
     descricao: bodyRequest.descricao,
     concluido: false,
     nome: bodyRequest.nome,
-  };
 
-  console.log(novaTarefa);
+  };
+  
   tarefasJson.push(novaTarefa);
-  fs = require("fs");
 
   fs.writeFile(
     "./src/models/tarefas.json",
@@ -67,19 +66,26 @@ const updateQualquerCoisa = (response, request) => {
   bodyRequest.dataInclusao = tarefaEncontrada.dataInclusao;
 
   Object.keys(tarefaEncontrada).forEach((chave) => {
-    tarefaEncontrada[chave] = bodyRequest[chave]
-  })
-response.status(200).json(
-  [
-    "message": "tarefa atualizada",
-    tarefaEncontrada
-  ]
-)
+    tarefaEncontrada[chave] = bodyRequest[chave];
+    if (bodyRequest[chave] == undefined) {
+      tarefaEncontrada[chave] = tarefaEncontrada[chave];
+    } else {
+      tarefaEncontrada[chave] = bodyRequest[chave];
+    }
+  });
+
+  if (bodyRequest[chave])
+    response.status(200).json([
+      {
+        message: "tarefa atualizada",
+        tarefaEncontrada,
+      },
+    ]);
 };
 
 module.exports = {
   createTask,
   getAll,
   deleteTask,
-  updateQualquerCoisa
+  updateQualquerCoisa,
 };
